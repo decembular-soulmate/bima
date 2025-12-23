@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Soulmate Is...</title>
     <style>
-        /* Mengatur background utama */
         body {
             margin: 0;
             padding: 0;
@@ -13,11 +12,10 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #0d47a1; /* Warna biru tua background */
+            background-color: #0d47a1;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Container utama (Kartu abu-abu muda) */
         .card {
             background-color: #e3e9f2;
             padding: 40px 30px;
@@ -28,7 +26,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             position: relative;
         }
-        /* Judul dengan emoji bintang */
+
         h1 {
             color: #1565c0;
             font-size: 28px;
@@ -46,7 +44,6 @@
             line-height: 1.4;
         }
 
-        /* Style Input Name */
         input[type="text"] {
             width: 100%;
             padding: 15px;
@@ -59,15 +56,10 @@
             color: #333;
         }
 
-        input[type="text"]::placeholder {
-            color: #aaa;
-        }
-
-        /* Tombol Reveal Fate */
         .btn-reveal {
             width: 100%;
             padding: 15px;
-            background-color: #c62828; /* Warna merah */
+            background-color: #c62828;
             color: white;
             border: none;
             border-radius: 15px;
@@ -79,7 +71,7 @@
         .btn-reveal:hover {
             background-color: #a50b0b;
         }
-        /* Overlay Pop-up */
+
         .overlay {
             display: none;
             position: fixed;
@@ -87,13 +79,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.4); /* Background gelap transparan */
+            background: rgba(0, 0, 0, 0.6);
             justify-content: center;
             align-items: center;
             z-index: 10;
         }
 
-        /* Kotak Pop-up (Modal) */
         .modal {
             background-color: #f1f3f5;
             padding: 30px;
@@ -104,6 +95,16 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
+        /* Style untuk gambar hasil */
+        .result-image {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            border: 4px solid #1565c0;
+        }
+
         .modal-text {
             color: #1565c0;
             font-size: 20px;
@@ -112,9 +113,8 @@
             line-height: 1.5;
         }
 
-        /* Tombol Close di Pop-up */
         .btn-close {
-            background-color: #ffeb3b; /* Warna kuning */
+            background-color: #ffeb3b;
             color: #0d47a1;
             padding: 12px 40px;
             border: none;
@@ -133,7 +133,6 @@
 </head>
 <body>
 
-
     <div class="card">
         <h1>✨ Your Soulmate is...</h1>
         <p>Type your name and let the cosmic nonsense unfold.</p>
@@ -141,20 +140,16 @@
         <input type="text" id="userName" placeholder="Your name..." autocomplete="off">
         <button class="btn-reveal" onclick="revealFate()">Reveal Fate</button>
     </div>
+
     <div class="overlay" id="overlay">
         <div class="modal">
+            <div id="imagePlaceholder"></div>
             <div class="modal-text" id="resultText"></div>
             <button class="btn-close" onclick="closeModal()">Close</button>
         </div>
     </div>
 
     <script>
-        const zodiacs = [
-            "Aries", "Taurus", "Gemini", "Cancer", 
-            "Leo", "Virgo", "Libra", "Scorpio", 
-            "Sagittarius", "Capricorn", "Aquarius", "Pisces"
-        ];
-
         function revealFate() {
             const nameInput = document.getElementById('userName').value;
             
@@ -163,20 +158,34 @@
                 return;
             }
 
-            // Memilih zodiac secara acak dengan peluang rata
-            const randomZodiac = zodiacs[Math.floor(Math.random() * zodiacs.length)];
+            // Path menuju GitHub kamu
+            const baseUrl = "https://raw.githubusercontent.com/decembular-soulmate/bima/main/";
             
-            // Menyusun teks jawaban
-            const resultMsg = `${nameInput}, your soulmate is ${randomZodiac}.`;
+            // Daftar gambar yang tersedia
+            const soulmates = [
+                { name: "Wowok", file: "wowok.png" },
+                { name: "Fufufafa", file: "fufufafa.png" }
+            ];
+
+            // Pilih secara acak
+            const randomPick = soulmates[Math.floor(Math.random() * soulmates.length)];
             
-            // Menampilkan di modal
+            // Tampilkan gambar
+            const imgHtml = `<img src="${baseUrl}${randomPick.file}" class="result-image" alt="Soulmate">`;
+            document.getElementById('imagePlaceholder').innerHTML = imgHtml;
+
+            // Tampilkan teks
+            const resultMsg = `${nameInput}, your soulmate is ${randomPick.name}!`;
             document.getElementById('resultText').innerText = resultMsg;
+            
+            // Tampilkan modal
             document.getElementById('overlay').style.display = 'flex';
         }
 
         function closeModal() {
             document.getElementById('overlay').style.display = 'none';
-            document.getElementById('userName').value = ''; // Reset input
+            document.getElementById('userName').value = ''; 
+            document.getElementById('imagePlaceholder').innerHTML = ''; // Hapus gambar agar tidak menumpuk
         }
     </script>
 
